@@ -1,4 +1,4 @@
-import Data.Char (ord, chr, isLower)
+import           Data.Char (chr, isLower, ord)
 
 char2int :: Char -> Int
 char2int c = ord c - ord 'a'
@@ -31,7 +31,7 @@ lowers xs  =  length [x | x <- xs, isLower x]
 freqs :: String -> [Float]
 freqs xs = [percent (count x xs) n | x <- ['a'..'z']]
                           where n = lowers xs
-                          
+
 rotate :: Int -> [a] -> [a]
 rotate n xs =  drop n xs ++ take n xs
 

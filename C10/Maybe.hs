@@ -1,5 +1,5 @@
 {-# LANGUAGE DeriveFunctor #-}
-import Prelude hiding (Maybe, Just, Nothing)
+import           Prelude hiding (Just, Maybe, Nothing)
 
 data Identity a = Identity a
 data Maybe a    = Just     a  |   Nothing deriving Functor
@@ -8,7 +8,7 @@ instance Applicative Maybe where
         pure = Just
         Just f <*> Just a = Just (f a)
         _ <*> _ = Nothing
-        
+
 instance Monad Maybe where
         return = Just
         (Just a) >>= f = f a

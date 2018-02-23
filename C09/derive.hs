@@ -2,11 +2,11 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -ddump-splices #-}
 
-import Data.Derive.Class.Arities
-import Data.Derive.Arities
-import Data.Derive.Show
-import Data.Derive.Eq
-import Data.DeriveTH
+import           Data.Derive.Arities
+import           Data.Derive.Class.Arities
+import           Data.Derive.Eq
+import           Data.Derive.Show
+import           Data.DeriveTH
 
 data Shape = Circle Double | Triangle Double Double Double
 

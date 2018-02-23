@@ -1,8 +1,8 @@
-{-# LANGUAGE FlexibleInstances#-}
+{-# LANGUAGE FlexibleInstances #-}
 
 class Addition t where
        add :: Int -> t
-       
+
 instance Addition Int where
          add x = x
 

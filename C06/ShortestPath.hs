@@ -11,16 +11,16 @@ zipD ::  [Name] -> [[String]]
 zipD ns = [[(start++"->"++des)| des <- ns ]|start <- ns]
 
 zipW :: [[Distance]] -> [Name] -> [[Weight]]
-zipW ds ns = [zip d n | (d, n) <- zip ds (zipD ns)]  
+zipW ds ns = [zip d n | (d, n) <- zip ds (zipD ns)]
 
 tuplePlus :: Weight -> Weight -> Weight
 tuplePlus (d1,n1) (d2,n2) = (d1+d2,n1++destination)
                 where (from,destination) = break (=='-') n2
-                
+
 type RouteMap = [[Weight]]
 
 step ::RouteMap -> RouteMap -> RouteMap
-step a b = [[minimumBy (comparing fst) $ zipWith tuplePlus ar bc | bc <- transpose b]|ar<-a]  
+step a b = [[minimumBy (comparing fst) $ zipWith tuplePlus ar bc | bc <- transpose b]|ar<-a]
 
 infixl  5  |*|
 
@@ -35,18 +35,18 @@ steps :: Int -> RouteMap -> RouteMap
 steps n route = iteration n (step route) route
 
 fix f x = if dss == dss' then x else fix f x'
-                where 
+                where
                  x'   = f x
                  dss  =  [fst $ unzip ds|ds<-x']
                  dss' =  [fst $ unzip ds|ds<-x ]
 
 path :: [[Distance]] -> [Name] -> RouteMap
 path dis ns = fix (step route) route
-        where route = zipW dis ns  
+        where route = zipW dis ns
 
 infinity :: Fractional a => a
 infinity = 1/0
-        
+
 i = infinity
 
 graph:: [[Distance]]
@@ -57,3 +57,10 @@ graph = [[0,6,2,i,7],
          [7,i,5,4,0]]
 
 names = ["A","B","C","D","E"]
+
+step' :: RouteMap -> RouteMap
+step' a = [[minimumBy (comparing fst) $ zipWith tuplePlus ar ac | ac <- transpose a]|ar<-a]
+
+path' :: [[Distance]] -> [Name] -> RouteMap
+path' dis ns = fix step' route
+        where route = zipW dis ns

@@ -1,12 +1,12 @@
-{-# LANGUAGE StandaloneDeriving #-}
+--{-# LANGUAGE StandaloneDeriving #-}
 
-import System.Process
-import GHC.IO.Handle
-import System.IO
+import           GHC.IO.Handle
+import           System.IO
+import           System.Process
 
-deriving instance Show (CmdSpec)
-deriving instance Show (StdStream)
-deriving instance Show (CreateProcess)
+--deriving instance Show (CmdSpec)
+--deriving instance Show (StdStream)
+--deriving instance Show (CreateProcess)
 
 command1 = do
          (Nothing,Nothing,Nothing,d) <-

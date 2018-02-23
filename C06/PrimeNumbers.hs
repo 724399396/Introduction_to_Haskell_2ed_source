@@ -1,3 +1,5 @@
+import Data.List (group)
+
 factors :: Integral a => a -> [a]
 factors n = [x| x<- [1..n] , mod n x == 0]
 
@@ -14,8 +16,16 @@ isPrime' p = p > 1 && (all (\n-> p `mod` n /= 0) $ takeWhile (\n->n*n <=p) [3,5.
 nextPrime :: Integer -> Integer
 nextPrime a | odd a = if isPrime a then a else nextPrime (a+2)
             | otherwise = nextPrime (a+1)
-            
+
 sieve:: (Integral a) => [a] -> [a]
 sieve (p:xs) = p: sieve [x| x <- xs, x `mod` p /=0]
 
 primes' = sieve [2..]
+
+primeFactors ::  Integer -> [(Int, Integer)]
+primeFactors n = map (\xs -> (length xs, head xs)) $ group $ help n
+  where help :: Integer -> [Integer]
+        help 0 = []
+        help 1 = []
+        help n' = let f = head $ filter (\x -> n' `mod` x == 0) primes'
+                  in f:(help (n' `div` f))

@@ -1,7 +1,9 @@
-{-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,FlexibleInstances #-}
+{-# LANGUAGE DeriveFunctor          #-}
+{-# LANGUAGE FlexibleInstances      #-}
+{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE MultiParamTypeClasses  #-}
 
-import Control.Monad
+import           Control.Monad
 
 newtype Reader r a = Reader { runReader :: r -> a }
                             deriving Functor
@@ -13,7 +15,7 @@ instance Monad (Reader r) where
 instance Applicative (Reader r) where
         pure = return
         (<*>) = ap
-        
+
 readLen :: Reader [a] Int
 readLen = Reader $ \r -> length r
 

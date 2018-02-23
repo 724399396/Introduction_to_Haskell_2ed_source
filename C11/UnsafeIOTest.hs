@@ -1,5 +1,5 @@
-import System.IO.Unsafe
-import Data.IORef
+import           Data.IORef
+import           System.IO.Unsafe
 
 ref :: IORef Int
 ref = unsafePerformIO $ newIORef 0
@@ -12,7 +12,7 @@ plus = do
 
 plus' :: IO ()
 plus' = do
-     x <- unsafeInterleaveIO $ readIORef ref 
+     x <- unsafeInterleaveIO $ readIORef ref
      y <- unsafeInterleaveIO $ writeIORef ref 1 >> return 100
      print (x + y)
 

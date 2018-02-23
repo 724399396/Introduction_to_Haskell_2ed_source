@@ -1,23 +1,23 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import System.Environment (getArgs)
-import Text.Printf
-import Control.Exception
-import Data.Word (Word8)
-import Data.Bits (shiftL)
-import Data.List (foldl')
-import System.IO
-import Data.String (fromString)
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as Encode (decodeUtf8)
-import qualified Data.ByteString as DB
+import           Control.Exception
+import           Data.Bits             (shiftL)
+import qualified Data.ByteString       as DB
 import qualified Data.ByteString.Char8 as DBC (putStrLn)
+import           Data.List             (foldl')
+import           Data.String           (fromString)
+import qualified Data.Text             as T
+import qualified Data.Text.Encoding    as Encode (decodeUtf8)
+import           Data.Word             (Word8)
+import           System.Environment    (getArgs)
+import           System.IO
+import           Text.Printf
 
 data WordIdx = WordIndex {
-                word      :: T.Text,
-                offset    :: Int,
-                expLen    :: Int
+                word   :: T.Text,
+                offset :: Int,
+                expLen :: Int
               } deriving Show
 
 byteToInt :: [Word8] -> Int
@@ -26,7 +26,7 @@ byteToInt bs = foldl' (\x y -> shiftL (fromIntegral x) 8 + fromIntegral y) 0 bs
 getIndexList :: DB.ByteString -> [WordIdx]
 getIndexList "" = []
 getIndexList str = WordIndex w (byteToInt o) (byteToInt e) : getIndexList left
-                 where 
+                 where
                        w    = Encode.decodeUtf8 $ DB.takeWhile (/= 0) str
                        o    = DB.unpack $ DB.take 4 (DB.drop 1 off)
                        e    = DB.unpack $ DB.take 4 (DB.drop 5 off)
@@ -37,14 +37,14 @@ searchWord :: T.Text -> [WordIdx] -> Maybe WordIdx
 searchWord str [] = Nothing
 searchWord str xs | wrd < str = searchWord str behind
                   | wrd > str = searchWord str front
-                  | otherwise    = Just b                  
+                  | otherwise    = Just b
                 where (front,b:behind) = splitAt (length xs `div` 2) xs
                       wrd = T.toLower (word b)
 
 main :: IO ()
-main = do 
+main = do
         arg <- getArgs
-        case arg of 
+        case arg of
             []     -> print "Usage: Dict <word>"
             (a:_)  -> do
                idctIdx <- DB.readFile "./Dict/longman.idx"

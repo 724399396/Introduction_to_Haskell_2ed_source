@@ -1,4 +1,4 @@
--- Fold.hs
+-- Fold.hso
 (+++) :: [a] -> [a] -> [a]
 (+++) = foldr (:)
 
@@ -14,7 +14,7 @@ skip :: Eq a => a -> [a] -> [a]
 skip x [] = [x]
 skip x (y:ys) | x == y = (y:ys)
               | otherwise = x:y:ys
-              
+
 compress :: Eq a => [a] -> [a]
 compress = foldr skip []
 
@@ -37,3 +37,19 @@ unwords' ws =  foldr1 (\w s -> w ++ ' ':s) ws
 maximum', minimum' :: Ord a => [a] -> a
 maximum'  = foldl1 max
 minimum'  = foldl1 min
+
+interLeave :: [a] -> [a] -> [a]
+interLeave xs ys = help 0 xs ys
+  where help 0 (x:xs) ys = x : (help 1 xs ys)
+        help 1 xs (y:ys) = y : (help 0 xs ys)
+
+interLeaveLists :: [[a]] -> [a]
+interLeaveLists xs = foldr interLeave [] xs
+
+removeOne :: Eq a => a -> [a] -> [a]
+removeOne _ [] = []
+removeOne x' (x:xs) | x' == x = xs
+                    | otherwise = x:(removeOne x' xs)
+
+removeDup :: Eq a => [a] -> [a]
+removeDup xs = foldr removeOne xs xs

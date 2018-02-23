@@ -1,12 +1,12 @@
-import Control.Monad.Reader
-import Data.List (lookup)
+import           Control.Monad.Reader
+import           Data.List            (lookup)
 
 data Exp = Val Int
          | Var String
-         | Add Exp Exp 
+         | Add Exp Exp
          | Decl Bind Exp deriving (Show ,Eq)
 
-type Bind = (String,Int)         
+type Bind = (String,Int)
 type Env = [Bind]
 
 updateEnv :: Bind -> Env -> Env
@@ -24,11 +24,11 @@ resolve (Add e1 e2) = do
                     re1 <- resolve e1
                     case re1 of
                         Nothing -> return Nothing
-                        Just a  -> do 
+                        Just a  -> do
                                 re2 <- resolve e2
                                 case re2 of
                                     Nothing -> return Nothing
-                                    Just b -> return (Just (Add a b))
+                                    Just b  -> return (Just (Add a b))
 
 resolve (Decl b e) = local (updateEnv b) (resolve e)
 

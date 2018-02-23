@@ -1,5 +1,7 @@
 -- Kind.hs
-{-# LANGUAGE GADTs, KindSignatures, FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs             #-}
+{-# LANGUAGE KindSignatures    #-}
 data T :: * -> * where
       NIL :: T a
       CONS :: a -> T a -> T a
@@ -13,7 +15,7 @@ data Tree :: (* -> *) -> * -> * where
 type RoseTree a = Tree [] a
 
 instance Show a => Show (RoseTree a) where
-     show (L a) = show a	
+     show (L a)    = show a
      show (N tree) = show tree
 
 test :: RoseTree Int

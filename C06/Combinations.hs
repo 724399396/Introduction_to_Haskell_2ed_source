@@ -1,5 +1,5 @@
 -- Combinations.hs
-import Data.List (tails)
+import           Data.List (tails)
 
 powerSet = choice (\x -> [True,False])
 
@@ -8,9 +8,13 @@ choice _ [] = [[]]
 choice f (x:xs) =[if choose then x:ys else ys|choose <- f x , ys<- choice f xs]
 
 powerSet' :: [a] -> [[a]]
-powerSet' [] = [[]]
+powerSet' []     = [[]]
 powerSet' (x:xs) = [x:r | r <- powerSet' xs ] ++ powerSet' xs
 
 combinations :: Int -> [a] -> [[a]]
-combinations 0 _ = [[]]
+combinations 0 _  = [[]]
 combinations n xs = [y:ys | y:xs'<- tails xs, ys <- combinations (n-1) xs']
+
+choose :: Int -> [a] -> [[a]]
+choose 0 _  = [[]]
+choose n xs = [y:ys | y:xs' <- (tails xs), ys <- choose (n-1) (y:xs')]

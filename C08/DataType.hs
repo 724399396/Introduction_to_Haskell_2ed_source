@@ -1,8 +1,8 @@
 -- DataType.hs
 
-data Day = Mon | Tue | Wed | Thu | Fri | Sat | Sun 
+data Day = Mon | Tue | Wed | Thu | Fri | Sat | Sun
                                     deriving (Show,Read, Eq,Ord,Enum)
-{-                  
+{-
 tomorrow :: Day -> Day
 tomorrow Mon = Tue
 tomorrow Tue = Wed
@@ -14,10 +14,10 @@ tomorrow Sun = Mon
 -}
 
 tomorrow Sun = Mon
-tomorrow d = succ d
+tomorrow d   = succ d
 
 yesterday Mon = Sun
-yesterday d  = pred d
+yesterday d   = pred d
 
 type Name   = String
 type Author = String
@@ -40,7 +40,7 @@ incrisePrice (b1,b2) (Book nm ath isbn prc) pri =
 -}
 
 {-
-increasePrice (b1,b2) b@(Book nm ath isbn prc) pri = 
+increasePrice (b1,b2) b@(Book nm ath isbn prc) pri =
                            (b:b1,(Book nm ath isbn (prc+pri)):b2)
 -}
 
@@ -57,7 +57,7 @@ psecond (Pair a b) = b
 data Nat = Zero | Succ Nat deriving (Show,Eq,Ord)
 
 natToint :: Nat -> Int
-natToint Zero = 0
+natToint Zero     = 0
 natToint (Succ n) = 1 + natToint n
 
 int2nat :: Int -> Nat
@@ -71,7 +71,7 @@ add (Succ m) n = Succ (add m n)
 -}
 
 add :: Nat -> Nat -> Nat
-add Zero n = n
+add Zero n     = n
 add (Succ m) n = add m (Succ n)
 
 ---------------------------------
@@ -79,7 +79,7 @@ add (Succ m) n = add m (Succ n)
 data Shape = Circle {
                radius :: Float
              } | Rect {
-               len :: Float,
+               len   :: Float,
                width :: Float
              } deriving (Show,Eq)
 
@@ -89,8 +89,8 @@ area (Rect a b) = a * b
 
 data Person = Person {
     pname :: String,
-    age  :: Int,
-    sex  :: Bool  }
+    age   :: Int,
+    sex   :: Bool  }
 
 showPerson :: Person -> String
 showPerson (Person {pname = str, sex = s}) = str ++ show s
@@ -103,13 +103,13 @@ eval TRUE  = True
 eval FALSE = False
 eval (IF con b1 b2) | eval con == True  = eval b1
                     | eval con == False = eval b2
-                    
-eval' :: [BoolExp] -> Bool 
-eval' [TRUE]  = True
-eval' [FALSE]  = False
-eval' ((IF TRUE  b1 b2):xs) = eval' (b1:xs)
-eval' ((IF FALSE b1 b2):xs) = eval' (b2:xs)
-eval' (l@(IF con b1 b2):xs) = eval' (con:l:xs)
+
+eval' :: [BoolExp] -> Bool
+eval' [TRUE]                    = True
+eval' [FALSE]                   = False
+eval' ((IF TRUE  b1 b2):xs)     = eval' (b1:xs)
+eval' ((IF FALSE b1 b2):xs)     = eval' (b2:xs)
+eval' (l@(IF con b1 b2):xs)     = eval' (con:l:xs)
 eval' (TRUE:(IF con b1 b2):xs)  = eval' (b1:xs)
 eval' (FALSE:(IF con b1 b2):xs) = eval' (b2:xs)
 
@@ -119,8 +119,8 @@ test = IF (IF FALSE FALSE TRUE) (IF FALSE TRUE FALSE) FALSE
 ---------------------------------
 data List a = Nil | Cons a (List a) deriving (Eq,Show)
 
-mylistToList Nil = []
+mylistToList Nil         = []
 mylistToList (Cons x xs) = x:(mylistToList xs)
 
-listToMylist [] = Nil
+listToMylist []     = Nil
 listToMylist (x:xs) = Cons x (listToMylist xs)

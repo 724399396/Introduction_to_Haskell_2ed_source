@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 
-import Control.Applicative
+import           Control.Applicative
 
 instance Num b => Num (a -> b) where
         (+) = liftA2 (+)
@@ -11,4 +11,4 @@ instance Num b => Num (a -> b) where
         negate = fmap negate
         fromInteger = pure.fromInteger
 
-instance Integral a => Integral (a -> b) where
+-- instance Integral a => Integral (a -> b) where

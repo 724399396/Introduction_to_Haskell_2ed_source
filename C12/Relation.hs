@@ -1,5 +1,5 @@
-import Data.Monoid
-import Control.Monad.Reader
+import           Control.Monad.Reader
+import           Data.Monoid
 
 type Stack = [Int]
 (|>) :: Monoid a => a -> a -> a
@@ -20,6 +20,6 @@ m :: FunApp Stack
 m =    push 3
     |> push 1
     |> pop
-    
+
 readLength :: Int -> Reader Stack Int
 readLength n = reader $ \xs -> length xs

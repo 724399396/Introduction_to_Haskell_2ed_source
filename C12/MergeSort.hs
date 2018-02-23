@@ -1,11 +1,11 @@
-import Control.Monad.Writer
+import           Control.Monad.Writer
 
 merge [] xs = xs
 merge xs [] = xs
 merge (x:xs) (y:ys)
         | x<=y = x : merge xs (y:ys)
-        | otherwise = y: merge (x:xs) ys 
-        
+        | otherwise = y: merge (x:xs) ys
+
 indent :: Int -> ShowS
 indent n = showString (take (4 * n) (repeat ' '))
 

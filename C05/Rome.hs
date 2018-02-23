@@ -1,3 +1,4 @@
+import Data.List (isPrefixOf)
 -- Rome.hs
 romeNotation :: [String]
 romeNotation= ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"]
@@ -15,3 +16,11 @@ convert :: Int -> String
 convert 0 = ""
 convert n = let (rome, m) = subtrahend n
                 in m ++ convert (n-rome)
+
+longPrefix :: String -> (Int, String)
+longPrefix s = head $ filter (\(_,b) -> isPrefixOf b s) pair
+
+coConvert :: String -> Int
+coConvert "" = 0
+coConvert s = let (rome, m) = longPrefix s
+              in rome + (coConvert $ drop (length m) s)
