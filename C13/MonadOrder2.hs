@@ -1,16 +1,16 @@
 {-# LANGUAGE DeriveFunctor #-}
-import Control.Monad
-import Control.Monad.State
-import Control.Monad.Writer
+import           Control.Monad
+import           Control.Monad.State
+import           Control.Monad.Writer
 
 pushWS :: Int ->  WriterT String (State [Int]) ()
-pushWS x = WriterT $ state $ \xs -> ((()," push "++ show x),x:xs) 
+pushWS x = WriterT $ state $ \xs -> ((()," push "++ show x),x:xs)
 
 popWS ::  WriterT String (State [Int]) Int
-popWS = WriterT $ state $ \(x:xs) -> ((x," pop "++ show x),xs) 
+popWS = WriterT $ state $ \(x:xs) -> ((x," pop "++ show x),xs)
 
 push :: Int -> StateT [Int] (Writer String) ()
-push x = StateT $ \xs -> writer (((),x:xs), " push "++ show x) 
+push x = StateT $ \xs -> writer (((),x:xs), " push "++ show x)
 
 pop :: StateT [Int] (Writer String) Int
 pop = StateT $ \(x:xs) -> writer ((x,xs), " pop" ++ show x)
