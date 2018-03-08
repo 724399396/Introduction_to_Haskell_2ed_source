@@ -50,13 +50,13 @@ fact_cps1 :: Int -> Cont r Int
 fact_cps1 0 = return 1
 fact_cps1 n = do
           n1 <- fact_cps (n - 1)
-          callCC $ \k -> let r = n * n1 
-                         in if r > 10000 
+          callCC $ \k -> let r = n * n1
+                         in if r > 10000
                             then k 0
                             else return r
 
 fact_cps2 :: Int -> Cont r Int
-fact_cps2 n = do 
+fact_cps2 n = do
            (goto, acc, num) <- callCC $ \k -> let f x y = k (f,x,y)
                                               in return (f, 1, n)
            if num == 1

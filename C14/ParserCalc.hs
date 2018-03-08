@@ -1,6 +1,6 @@
-import Text.Parsec
-import qualified Text.Parsec.Token as T
-import Text.Parsec.Language (emptyDef)
+import           Text.Parsec
+import           Text.Parsec.Language (emptyDef)
+import qualified Text.Parsec.Token    as T
 
 lexer :: T.TokenParser ()
 lexer = T.makeTokenParser emptyDef
@@ -12,7 +12,7 @@ float :: Parsec String () Double
 float = T.float lexer
 
 chars :: Parsec String () [Char]
-chars = do 
+chars = do
         c1 <- lexeme $ char 'a'
         c2 <- lexeme $ char 'b'
         return [c1,c2]
@@ -23,11 +23,11 @@ float1 = do
         n <- T.float lexer
         return (f n)
 
-sign :: Num a => Parsec String () (a -> a) 
+sign :: Num a => Parsec String () (a -> a)
 sign =  (char '-' >> return negate)
             <|> (char '+' >> return id)
             <|> return id
-            
+
 data Exp = Add Exp Exp | Mul Exp Exp | Val Double deriving (Eq,Show)
 
 {-
@@ -39,7 +39,7 @@ parseExp = do
         return (Add e1 e2)
         <|> parseMul
 -}
-eval (Val v)  = v
+eval (Val v)     = v
 eval (Add e1 e2) = eval e1 + eval e2
 eval (Mul e1 e2) = eval e1 * eval e2
 
@@ -60,7 +60,7 @@ parseExp' = try (do
         e2 <- parseExp'
         case e2 of
             Nothing -> return (Just (\e -> Add e e1))
-            Just e -> return (Just (\e' -> e (Add e' e1) )))
+            Just e  -> return (Just (\e' -> e (Add e' e1) )))
             <|> (return Nothing )
 
 -- $Mul ::= Num Mul'$
@@ -71,7 +71,7 @@ parseMul = do
         e2 <- parseMul'
         case e2 of
             Nothing -> return e1
-            Just e  -> return (e e1) 
+            Just e  -> return (e e1)
 
 -- $Mul' ::= * Num Mul' | epsilon$
 
@@ -95,4 +95,4 @@ parseNum = try (do
 
 calculate str  = case runParser parseExp () "" str of
                       Right exp -> eval exp
-                      Left _ -> error "error"
+                      Left _    -> error "error"

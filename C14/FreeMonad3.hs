@@ -1,7 +1,12 @@
-{-# LANGUAGE GADTs , KindSignatures,DeriveFunctor, StandaloneDeriving , FlexibleContexts,UndecidableInstances#-}
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE DeriveFunctor        #-}
+{-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE GADTs                #-}
+{-# LANGUAGE KindSignatures       #-}
+{-# LANGUAGE RankNTypes           #-}
+{-# LANGUAGE StandaloneDeriving   #-}
+{-# LANGUAGE UndecidableInstances #-}
 
-import Control.Monad
+import           Control.Monad
 
 data Free f a = Pure a | Free (f (Free f a)) deriving (Functor)
 
@@ -42,12 +47,13 @@ run1 (Ask fstr) = do
                 return (fstr l)
 
 run2 :: [a] -> InteractionOp a -> [a]
-run2 = undefined
+run2 is (Say msg k) = is ++ [k ()]
+run2 is (Ask fstr) = is ++ [fstr ""]
 
-free :: (Functor f, Monad g) => (forall a. f a -> g a) -> (forall a. Free f a -> g a) 
-free f (Pure a) = return a 
+free :: (Functor f, Monad g) => (forall a. f a -> g a) -> (forall a. Free f a -> g a)
+free f (Pure a)  = return a
 free f (Free fa) = join (f (fmap (free f) fa))
 
 retract :: Monad f => Free f a -> f a
-retract (Pure a) = return a
+retract (Pure a)  = return a
 retract (Free as) = as >>= retract

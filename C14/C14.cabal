@@ -1,0 +1,10 @@
+name:                C14
+version:             0.1.0.0
+build-type: Simple
+cabal-version: >= 1.10
+
+library
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , stream-monad
+                     , mtl

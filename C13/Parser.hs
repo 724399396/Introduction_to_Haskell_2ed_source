@@ -1,9 +1,9 @@
 -- Parser.hs
-import Control.Applicative
-import Control.Monad
-import Control.Monad.State
-import Control.Monad.Trans.Maybe
-import Data.Char
+import           Control.Applicative
+import           Control.Monad
+import           Control.Monad.State
+import           Control.Monad.Trans.Maybe
+import           Data.Char
 
 data Node = Tag String [Node]
           | Text String
@@ -15,11 +15,11 @@ xml = "<html><head>Hello world!</head><body>Hello again!</body></html>"
 type Parser a = StateT String Maybe a
 
 satisfy :: (Char -> Bool) -> Parser Char
-satisfy p = StateT $ \str -> case str of 
-                               [] -> Nothing
+satisfy p = StateT $ \str -> case str of
+                               []   -> Nothing
                                s:ss -> if p s then Just (s,ss) else Nothing
 char :: Char -> Parser Char
-char c = satisfy (==c) 
+char c = satisfy (==c)
 
 letter = satisfy isAlpha
 string str = mapM char str
