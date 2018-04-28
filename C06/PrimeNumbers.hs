@@ -1,4 +1,11 @@
-import Data.List (group)
+import Data.List (genericLength, group)
+
+primeFactors :: Integer -> [(Integer, Integer)]
+primeFactors n = map (\g -> (genericLength g, head g)) $ group (factorSerial n)
+  where
+    factorSerial 1 = []
+    factorSerial x = let factor = head $ filter ((==0) . mod x) primes'
+                         in factor:(factorSerial (x `div` factor))
 
 factors :: Integral a => a -> [a]
 factors n = [x| x<- [1..n] , mod n x == 0]
@@ -21,11 +28,3 @@ sieve:: (Integral a) => [a] -> [a]
 sieve (p:xs) = p: sieve [x| x <- xs, x `mod` p /=0]
 
 primes' = sieve [2..]
-
-primeFactors ::  Integer -> [(Int, Integer)]
-primeFactors n = map (\xs -> (length xs, head xs)) $ group $ help n
-  where help :: Integer -> [Integer]
-        help 0 = []
-        help 1 = []
-        help n' = let f = head $ filter (\x -> n' `mod` x == 0) primes'
-                  in f:(help (n' `div` f))
