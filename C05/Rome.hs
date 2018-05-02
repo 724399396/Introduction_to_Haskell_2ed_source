@@ -24,3 +24,10 @@ coConvert :: String -> Int
 coConvert "" = 0
 coConvert s = let (rome, m) = longPrefix s
               in rome + (coConvert $ drop (length m) s)
+
+convertToBinary :: Int -> String
+convertToBinary n = let res = help n
+  in if (length res > 1) then dropWhile (== '0') res else res
+  where
+    help 0 = "0"
+    help n = help (n `div` 2) ++ show (n `mod` 2)

@@ -46,6 +46,7 @@ even n = odd (n-1)
 odd 0 = False
 odd n = even (n-1)
 
+
 hanoiNum :: Int -> Integer
 hanoiNum 1 = 1
 hanoiNum n = 2 * (hanoiNum (n-1)) + 1
@@ -53,3 +54,30 @@ hanoiNum n = 2 * (hanoiNum (n-1)) + 1
 hanoi :: Int -> (Int, Int, Int) -> [(Int, Int)]
 hanoi 1 (from,target,_) = [(from,target)]
 hanoi n (from,target,via) = hanoi (n-1) (from,via,target) ++ [(from,target)] ++ hanoi (n-1) (via,target,from)
+
+delete :: Eq a => a -> [a] -> [a]
+delete x [] = []
+delete x' (x:xs) = if (x' == x)
+                   then delete x' xs
+                   else x : delete x' xs
+
+drop' n x | n <= 0 = x
+drop' _ [] = []
+drop' n (_:xs) = drop' (n-1) xs
+
+mc n | n > 100 = n - 10
+     | otherwise = mc (mc (n + 11))
+
+merge (x:xs) (y:ys) |  x < y = x : merge xs (y:ys)
+                    |  x > y = y : merge (x:xs) ys
+                    |  x == y = x : merge xs ys
+merge [] ys = ys
+merge xs [] = xs
+
+ham :: [Integer]
+ham = 1 : merge (merge (map (*2) ham) (map (*3) ham)) (map (*5) ham)
+  where merge (x:xs) (y:ys) | x < y = x : merge xs (y:ys)
+                            |  x > y = y : merge (x:xs) ys
+                            |  x == y = x : merge xs ys
+        merge [] ys = ys
+        merge xs [] = xs
