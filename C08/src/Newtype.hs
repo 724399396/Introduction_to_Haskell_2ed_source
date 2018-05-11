@@ -9,7 +9,7 @@ newtype Second = Second Int deriving (Num,  Eq)
 
 instance Show Velocity where
          show (Velocity n) = show n ++" m/s"
-     
+
 instance Show Weight where
         show (Weight w) = show w ++ " kg"
 
