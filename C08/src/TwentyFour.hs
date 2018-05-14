@@ -1,4 +1,4 @@
-import           Data.List (nub, permutations, tails)
+import           Data.List (sort, nub, permutations, tails)
 
 data Exp = Val Double
          | Plus Exp Exp
@@ -55,4 +55,9 @@ showExp' e = help e Low
     help (Mult a b) _ = help a High ++ "*" ++ help b High
     help (Div  a b) _ = help a High ++ "/" ++ help b High
 
-singleSolution = [x | x <- tails [1..13], length (nub (twentyfour x)) == 1]
+subSet :: (Eq a) => Int -> [a] -> [[a]]
+subSet 0 _ = [[]]
+subSet _ [] = []
+subSet n (x:xs) = (map (x:) (subSet (n-1) xs)) ++ subSet n xs
+
+singleSolution = nub $ sort $ [x | x <- subSet 4 [1..13], length (twentyfour x) == 1]
