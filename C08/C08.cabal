@@ -9,4 +9,5 @@ library
                      , xml-conduit == 1.8.*
                      , bytestring >= 0.10
                      , raw-strings-qq >= 1.1
+                     , rosezipper
   hs-source-dirs:      src
