@@ -6,4 +6,7 @@ library
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
                      , containers
+                     , xml-conduit == 1.8.*
+                     , bytestring >= 0.10
+                     , raw-strings-qq >= 1.1
   hs-source-dirs:      src
